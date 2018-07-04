@@ -19,6 +19,7 @@ router.post('/question', function (req, res) {
 
   var newQuestion = new Question();
   newQuestion.question = req.body.question;
+  newQuestion.answer = req.body.answer;
   newQuestion.created_at = new Date();
   newQuestion.interactiveStory = req.body.interactiveStory;
   newQuestion.poster = req.body.poster;

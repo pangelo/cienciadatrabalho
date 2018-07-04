@@ -1,7 +1,8 @@
 var mongoose = require('mongoose');
 
 var questionSchema = new mongoose.Schema({
-	question: { type: String, required:true},
+    question: { type: String, required:true},
+    answer: {type: String, required: true},
 	created_at: { type: Date, default:Date.now },
     interactiveStory : { type:String },
     poster: { type: String},
