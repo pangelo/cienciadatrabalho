@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var Question = require('../server/models/Question');
+var QRCode = require('qrcode')
 
 /* GET home page. */
 router.get('/', function(req, res) {
@@ -35,22 +36,34 @@ router.post('/question', function (req, res) {
     if (err) res.send(err);
     console.log(err);
     res.json(newQuestion);
-  })
+
+    QRCode.toDataURL("http://localhost:3000/" + newQuestion._id, function (err, url) {
+      console.log(url)
+    });
+  });
 
 });
 
 
 var getQuestionById = function (req, res) {
+
+  var qrCode = '';
+
   Question.findById(req.params.id, function (err, questions) {
     if (err) {
       res.send(err);
     }
 
     if (questions == null) {
-      res.render('error', { status: 404, message:'not found', error: '404 not found' });
+      res.render('error', { status: 404, message: 'not found', error: '404 not found' });
     }
 
-    res.render('index', { title: 'Ciência Dá Trabalho', id: req.params.id, question: questions });
+
+    QRCode.toDataURL("http://localhost:3000/" + questions._id, function (err, url) {
+      qrCode = url;
+      res.render('index', { title: 'Ciência Dá Trabalho', id: req.params.id, question: questions, qrCode: qrCode });
+    });
+    
   });
 }
 
