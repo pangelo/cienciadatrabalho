@@ -31,7 +31,12 @@ router.get('/:id', function (req, res) {
 
 });
 
-
+/* GET detail page related with a specific ID */
+router.get('/:id/detail', function (req, res) {
+  res.render('detail', { 
+    title: 'Detail',
+    detail: 'Awesome Scientific Content Goes Here'});
+});
 
 /* POST a new question */
 router.post('/question', function (req, res) {
