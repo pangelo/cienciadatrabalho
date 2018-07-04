@@ -4,8 +4,14 @@ var Question = require('../server/models/Question');
 var QRCode = require('qrcode')
 
 /* GET home page. */
-router.get('/', function (req, res) {
-  res.render('index', { title: '#ciênciadátrabalho', id: '', question: '', qrCode:'' });
+router.get('/', function(req, res) {
+  res.render('landing', {
+    id: '',
+    title: 'Bem Vindo!',
+    question: 'Default Question?',
+    teaser: 'Writing default questions is hard.',
+    story: 'Once upon a time a coder had to write a default question...'
+  });
 });
 
 /* GET manifesto page */
