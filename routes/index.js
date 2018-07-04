@@ -3,8 +3,14 @@ var router = express.Router();
 var Question = require('../server/models/Question');
 
 /* GET home page. */
-router.get('/', function (req, res) {
-  res.render('index', { title: 'Ciência Dá Trabalho', id: '', question:'' });
+router.get('/', function(req, res) {
+  res.render('landing', {
+    id: '',
+    title: 'Bem Vindo!',
+    question: 'Default Question?',
+    teaser: 'Writing default questions is hard.',
+    story: 'Once upon a time a coder had to write a default question...'
+  });
 });
 
 /* GET home page with a specific ID */
