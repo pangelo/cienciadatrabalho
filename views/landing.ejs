@@ -1,9 +1,18 @@
 <%- include header %>
-  <div id="question">
-      <h2><%= question %></h2>
-      <p><%= teaser %></p>
-  </div>
-  <div id="story">
-      <%= story %>
-  </div>
+
+    <div class="container">
+
+        <div id="question">
+            <h2>
+                <%= question %>
+            </h2>
+            <p>
+                <%= teaser %>
+            </p>
+        </div>
+        <div id="story" class="container" style="height:60vh;">
+                <iframe src="<%= story %>"></iframe> 
+        </div>
+    </div>
+
 <%- include footer %>

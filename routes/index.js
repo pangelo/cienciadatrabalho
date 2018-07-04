@@ -7,10 +7,10 @@ var QRCode = require('qrcode')
 router.get('/', function(req, res) {
   res.render('landing', {
     id: '',
-    title: 'Bem Vindo!',
+    title: '#ciênciadátrabalho',
     question: 'Default Question?',
     teaser: 'Writing default questions is hard.',
-    story: 'Once upon a time a coder had to write a default question...'
+    story: '/uploads/stories/teste.html',
   });
 });
 
@@ -58,6 +58,7 @@ var getQuestionById = function (req, res) {
   var qrCode = '';
 
   Question.findById(req.params.id, function (err, questions) {
+
     if (err) {
       res.send(err);
     }
@@ -69,7 +70,14 @@ var getQuestionById = function (req, res) {
 
     QRCode.toDataURL("http://localhost:3000/" + questions._id, function (err, url) {
       qrCode = url;
-      res.render('index', { title: '#ciênciadátrabalho', id: req.params.id, question: questions, qrCode: qrCode });
+      res.render('landing', {
+        id: req.params.id,
+        title: '#ciênciadátrabalho',
+        question: questions.question,
+        teaser: questions.answer,
+        story: '/uploads/stories/teste.html',
+        qrCode: qrCode
+      });
     });
     
   });
