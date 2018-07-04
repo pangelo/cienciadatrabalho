@@ -5,7 +5,17 @@ var QRCode = require('qrcode')
 
 /* GET home page. */
 router.get('/', function (req, res) {
-  res.render('index', { title: 'Ciência Dá Trabalho', id: '', question: '' });
+  res.render('index', { title: '#ciênciadátrabalho', id: '', question: '', qrCode:'' });
+});
+
+/* GET manifesto page */
+router.get('/manifesto', function (req, res) {
+  res.render('manifesto', { title: '#ciênciadátrabalho - Manifesto'});
+});
+
+/* GET manifesto page */
+router.get('/howto', function (req, res) {
+  res.render('howto', { title: '#ciênciadátrabalho - Como Participar'});
 });
 
 /* GET home page with a specific ID */
@@ -14,6 +24,8 @@ router.get('/:id', function (req, res) {
   getQuestionById(req, res);
 
 });
+
+
 
 /* POST a new question */
 router.post('/question', function (req, res) {
@@ -30,10 +42,6 @@ router.post('/question', function (req, res) {
     if (err) res.send(err);
     console.log(err);
     res.json(newQuestion);
-
-    QRCode.toDataURL("http://localhost:3000/" + newQuestion._id, function (err, url) {
-      console.log(url)
-    });
   });
 
 });
@@ -55,7 +63,7 @@ var getQuestionById = function (req, res) {
 
     QRCode.toDataURL("http://localhost:3000/" + questions._id, function (err, url) {
       qrCode = url;
-      res.render('index', { title: 'Ciência Dá Trabalho', id: req.params.id, question: questions, qrCode: qrCode });
+      res.render('index', { title: '#ciênciadátrabalho', id: req.params.id, question: questions, qrCode: qrCode });
     });
     
   });
