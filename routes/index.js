@@ -33,6 +33,27 @@ router.get('/new', function (req, res) {
   res.render('new', { title: '#ciênciadátrabalho - Nova Pergunta' });
 });
 
+/* GET gallery page */
+router.get('/gallery', function (req, res) {
+  Question.find().exec (function(err, docs) {
+    console.log(docs);
+
+    if (err) {
+      res.render ('error', {
+        message: "Something bad happened to your gallery",
+        status: err
+      });
+    }
+    else {
+      res.render ('gallery', {
+        title: '#ciênciadátrabalho - Galeria',
+        docs: docs,
+        id:''
+      });
+    }    
+  }); 
+});
+
 router.post('/generatePoster', function (req, res) {
 
   console.log('bla');
@@ -127,24 +148,6 @@ router.get('/:id', function (req, res) {
 
   getQuestionById(req, res);
 
-});
-
-/* GET gallery page */
-router.get('/gallery', function (req, res) {
-  Question.find().exec (function(err, docs) {
-    if (err) {
-      res.render ('error', {
-        message: "Something bad happened to your gallery",
-        status: err
-      });
-    }
-    else {
-      res.render ('gallery', {
-        title: 'Galeria de Questões',
-        docs: docs
-      });
-    }    
-  }); 
 });
 
 /* GET detail page related with a specific ID */

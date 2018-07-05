@@ -1,11 +1,10 @@
 <%- include header %>
 <ul id="gallery">
-    <% for (var doc in docs) { %>
-	<li class="item">
-	    <a href="/<%= doc._id %>">
-		<img src="<%= doc.poster %>">
-	    </a>
-	    <h2><%= doc.question %></h2>
+	<% for(var i=0; i < docs.length; i++) { %>
+		
+	<li class="item" style="list-style: none;">
+	    
+	    <h2><a href="/<%= docs[i]._id %>"><%= docs[i].question %></a></h2>
 	</li>
     <% } %>
 </ul>
