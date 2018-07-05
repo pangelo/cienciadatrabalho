@@ -31,6 +31,24 @@ router.get('/:id', function (req, res) {
 
 });
 
+/* GET gallery page */
+router.get('/gallery', function (req, res) {
+  Question.find().exec (function(err, docs) {
+    if (err) {
+      res.render ('error', {
+        message: "Something bad happened to your gallery",
+        status: err
+      });
+    }
+    else {
+      res.render ('gallery', {
+        title: 'Galeria de Questões',
+        docs: docs
+      });
+    }    
+  }); 
+});
+
 /* GET detail page related with a specific ID */
 router.get('/:id/detail', function (req, res) {
   res.render('detail', { 

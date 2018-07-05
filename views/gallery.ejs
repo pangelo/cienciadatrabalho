@@ -1,0 +1,12 @@
+<%- include header %>
+<ul id="gallery">
+    <% for (var doc in docs) { %>
+	<li class="item">
+	    <a href="/<%= doc._id %>">
+		<img src="<%= doc.poster %>">
+	    </a>
+	    <h2><%= doc.question %></h2>
+	</li>
+    <% } %>
+</ul>
+<%- include footer %>
