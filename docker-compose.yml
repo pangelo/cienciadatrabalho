@@ -1,0 +1,27 @@
+version: '3.1'
+
+services:
+
+  mongo:
+    container_name: mongo
+    image: mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: science
+      MONGO_INITDB_ROOT_PASSWORD: takestime
+      MONGO_INITDB_DATABASE: cienciadatrabalho
+
+  app:
+    build: ./
+    container_name: cdt
+    restart: always
+    ports:
+      - "3000:3000"
+    links:
+      - mongo
+    environment:
+      CDT_MONGODB_URI: mongodb://mongo/cienciadatrabalho
+      CDT_MONGODB_USER: science
+      CDT_MONGODB_PASSWORD: takestime

@@ -4,7 +4,7 @@ var path = require('path'),
 module.exports = {
 	development: {
 		rootPath: rootPath,
-		db: 'mongodb://localhost/cienciadatrabalho',
+		db: process.env.CDT_MONGODB_URI || 'mongodb://localhost/cienciadatrabalho',
         port: process.env.PORT || 3000,
 	},
 	production: {
