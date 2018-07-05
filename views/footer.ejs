@@ -4,11 +4,70 @@
 </footer>
 </div>
 </body>
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
- crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
  crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
  crossorigin="anonymous"></script>
+ <script>
 
+	var switchVar = 0;
+
+	if (document.URL == 'http://localhost.3000/')
+		switchVar = 0;
+
+	if (document.URL.indexOf("manifesto") >= 0)
+		switchVar = 1;
+
+	if (document.URL.indexOf("howto") >= 0)
+		switchVar = 2;    
+
+		if (document.URL.indexOf("gallery") >= 0)
+		switchVar = 3;
+
+	if (document.URL.indexOf("new") >= 0)
+		switchVar = 4;
+
+	switch (switchVar) {
+		case (0):
+			document.getElementById("homeLink").classList.add("active");
+			break;
+		case (1):
+			document.getElementById("manifestoLink").classList.add("active");
+			break;
+		case (2):
+			document.getElementById("howToLink").classList.add("active");
+			break;
+		case (3):
+			document.getElementById("gallery").classList.add("active");
+			break;
+		case (4):
+			document.getElementById("new").classList.add("active");
+			break;
+	}
+
+	$("#fbLogo").mouseover(function() {
+		$( "#fbLogo" ).attr('src','images/facebook-logo_blue.png');
+	});
+
+    $("#fbLogo").mouseout(function() {
+		$( "#fbLogo" ).attr('src','images/facebook-logo.png');
+	});
+
+	$("#instaLogo").mouseover(function() {
+		$( "#instaLogo" ).attr('src','images/instagram-logo_blue.png');
+	});
+
+    $("#instaLogo").mouseout(function() {
+		$( "#instaLogo" ).attr('src','images/instagram-logo.png');
+	});
+
+	$("#twitterLogo").mouseover(function() {
+		$( "#twitterLogo" ).attr('src','images/twitter-logo-on-black-background_blue.png');
+	});
+
+    $("#twitterLogo").mouseout(function() {
+		$( "#twitterLogo" ).attr('src','images/twitter-logo-on-black-background.png');
+	});
+</script>
 </html>

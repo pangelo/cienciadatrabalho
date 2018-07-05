@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var Question = require('../server/models/Question');
-var QRCode = require('qrcode')
+var QRCode = require('qrcode');
 
 /* GET home page. */
 router.get('/', function(req, res) {
@@ -34,7 +34,7 @@ router.get('/:id', function (req, res) {
 /* GET detail page related with a specific ID */
 router.get('/:id/detail', function (req, res) {
   res.render('detail', { 
-    title: 'Detail',
+    title: '#ciênciadátrabalho',
     detail: 'Awesome Scientific Content Goes Here'});
 });
 
@@ -80,7 +80,7 @@ var getQuestionById = function (req, res) {
         title: '#ciênciadátrabalho',
         question: questions.question,
         teaser: questions.answer,
-        story: '/uploads/stories/teste.html',
+        story: questions.interactiveStory,
         qrCode: qrCode
       });
     });

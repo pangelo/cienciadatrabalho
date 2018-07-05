@@ -1,26 +1,51 @@
 body {
   padding: 50px;
   font-family: 'Lora', serif;
+  background-color:#24ff00 !important;
 }
 
 a {
-  color: black;
+  color: black !important;
+}
+
+a:hover
+{
+  color:#0211ef !important;
 }
 
 p
 {
   font-family: 'Lora', serif;
   font-size:14px;
+  
+}
+
+#title
+{
+  font-family: 'Bungee', cursive;
+  font-size:48px;
+  color:#0211ef !important;
+  font-weight:bold !important;
+}
+
+.titleImg
+{
+  margin-left:20px !important;
+  cursor:pointer;
 }
 
 h1 {
-  font-family: 'Bungee', cursive;
-  font-size:48px;
+  font-family: 'Bungee', cursive !important;
+  font-size:64px !important;
+  text-align:center;
 }
 
 h2 {
-  font-family: 'Bungee', cursive;
-  font-size:28px;
+  font-family: 'Bungee', cursive !important;
+  font-size:48px ;
+  text-align:center;
+  line-height: 40px !important;
+  color:#0211ef !important;
 }
 
 iframe
@@ -31,5 +56,67 @@ iframe
 
 footer
 {
-  text-align:right;
+  text-align:justify;
+  font-family: 'Lora', serif;
+  font-size:28px;
+  border-top:2px solid black;
+  padding-top:40px;
+  margin-top:40px;
+}
+
+.nav-link
+{
+    display: block;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    margin:auto;
+    border-radius: 3px;
+    border: 1px solid #999;
+    padding: 0;
+    text-align:center;
+    background: lightgray;
+    font-family:'Bungee', cursive;
+    background: -moz-linear-gradient(top,  #F0F0F0 50%, #D4D4D4 50%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(50%,#F0F0F0), color-stop(50%,#D4D4D4));
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#F0F0F0', endColorstr='#D4D4D4',GradientType=0 );
+    box-shadow: 5px 10px 18px black;
+}
+
+.nav-link:hover
+{
+  background: -moz-linear-gradient(top,  #F0F0F0 50%, #bebebe 50%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(50%,#F0F0F0), color-stop(50%,#bebebe));
+}
+
+.nav-link a:hover
+{
+  color:#0211ef;
+  text-decoration:underline;
+}
+
+.navbar-nav
+{
+  width:100%;
+  padding-top:40px;
+  padding-bottom:40px;
+}
+
+#question
+{
+  font-family: 'Bungee', cursive;
+  font-size:64px !important;
+  text-align:center;
+}
+
+#answer
+{
+  font-family: 'Bungee', cursive;
+  font-size:36px !important;
+  text-align:center;
+  color:#0211ef;
+}
+
+#manifestoList li
+{
+  margin-bottom:20px;
 }

@@ -3,14 +3,12 @@
     <div class="container">
 
         <div id="question">
-            <h2>
                 <%= question %>
-            </h2>
-            <p>
-                <%= teaser %>
-            </p>
         </div>
-        <div id="story" class="container" style="height:60vh;">
+        <div id="answer">
+                <%= teaser %>
+        </div>
+        <div id="story" class="container" style="height:60vh; border-top:2px solid black; padding-top:40px;">
                 <iframe src="<%= story %>"></iframe> 
         </div>
     </div>
