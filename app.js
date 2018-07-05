@@ -48,7 +48,9 @@ if (app.get('env') === 'development') {
         res.render('error', {
             message: err.message,
             error: err,
-            status:err.status
+            status:err.status,
+            title:'#cienciadatrabalho - ERRO',
+            id:''
         });
     });
 }
@@ -60,7 +62,9 @@ app.use(function(err, req, res, next) {
     res.render('error', {
         message: err.message,
         error: {},
-        status:err.status
+        status:err.status,
+        title:'#cienciadatrabalho - ERRO',
+        id:''
     });
 });
 
