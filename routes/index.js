@@ -64,6 +64,46 @@ router.get('/new', function (req, res) {
   res.render('new', { title: '#ciênciadátrabalho - Nova Pergunta' });
 });
 
+/* GET analytics page */
+router.get('/vandalytics', function (req, res) {
+
+  Vandalytic.find().exec (function(err, results) {
+
+    var vandalytics = [];
+
+    for(var i = 0 ; i<results.length; i++)
+    {
+          vandalytics[i] = results[i].page;
+    }
+
+    var uniqueArray = vandalytics.filter(function(item, pos, self) {
+      return self.indexOf(item) == pos;
+  });
+
+    var counter = [];
+
+    for(var i=0; i<uniqueArray.length; i++)
+    {
+      counter[i] = 0;
+    }
+
+    for(var i=0; i<results.length; i++)
+    {
+      for(var j=0; j<uniqueArray.length; j++)
+      {
+        if(uniqueArray[j]==results[i].page)
+        {
+          counter[j] = counter[j] + 1;
+        }
+      }
+    }
+
+    res.render('vandalytics', { title: '#ciênciadátrabalho - Vandalytics' , vandalytics: uniqueArray, _id:"", counter:counter });
+  });
+
+  
+});
+
 /* GET gallery page */
 router.get('/gallery', function (req, res) {
   registerVisitor(req,res,"gallery");

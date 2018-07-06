@@ -1,0 +1,14 @@
+<%- include header %>
+
+    <div class="container">
+        <% for(var i=0; i < vandalytics.length; i++) { %>
+		
+            <li class="item" style="list-style: none;">
+                <h2 style="margin-bottom:30px; text-align:left;"><%= vandalytics[i] %></h2>
+                <h3> <%= counter[i] %></h3>
+                <hr>
+            </li>
+            <% } %>
+    </div>
+
+<%- include footer %>
