@@ -9,12 +9,38 @@ var streamBuffers = require('stream-buffers');
 var base64 = require('base64-stream');
 
 router.get('/', function (req, res) {
+
+  var randomStory = "/uploads/stories/defaultStory1.html";
+
+    var random = Math.floor(Math.random() * 5) + 1;
+
+    switch(random)
+    {
+      case(1):
+        randomStory = "/uploads/stories/ANNA.html";
+      break;
+      case(2):
+        randomStory = "/uploads/stories/CHRISTIAN.html";
+      break;
+      case(3):
+        randomStory = "/uploads/stories/FELIPE.html";
+      break;
+      case(4):
+        randomStory = "/uploads/stories/NATALIA.html";
+      break;
+      case(5):
+        randomStory = "/uploads/stories/PEDRO.html";
+      break;
+    }
+
+
   res.render('landing', {
     id: '',
     title: '#ciênciadátrabalho',
     question: 'Eu Tenho Perguntas?',
-    teaser: '#ciênciadátrabalho é um movimento que surge no contexto do Emergence Hackathon 2018, e pretende despertar a consciência do público para a complexidade e morosidade do trabalho científico através do casamento entre a arte de rua e o mundo digital. Entra na nossa história.',
-    story: '/uploads/stories/teste.html',
+    teaser: 'A comunicar ciência através do vandalismo investigativo.',
+    story: randomStory,
+    calltoaction:"Se queres saber mais sobre o movimento, entra nesta estória!"
   });
 });
 
@@ -177,7 +203,7 @@ var getQuestionById = function (req, res) {
 
     if(req.params.id)
     {
-      QRCode.toDataURL("http://localhost:3000/" + req.params.id, function (err, url) {
+      QRCode.toDataURL("http://cienciadatrabalho.info" + req.params.id, function (err, url) {
         qrCode = url;
         res.render('landing', {
           id: req.params.id,
@@ -185,7 +211,8 @@ var getQuestionById = function (req, res) {
           question: questions.question,
           teaser: questions.answer,
           story: questions.interactiveStory,
-          qrCode: qrCode
+          qrCode: qrCode,
+          calltoaction:"Se queres saber mais sobre a ciência por trás desta pergunta, entra nesta estória!"
         });
       });
     }
@@ -196,7 +223,8 @@ var getQuestionById = function (req, res) {
         title: '#ciênciadátrabalho',
         question: 'Eu Tenho Perguntas?',
         teaser: '#ciênciadátrabalho é um movimento que surge no contexto do Emergence Hackathon 2018, e pretende despertar a consciência do público para a complexidade e morosidade do trabalho científico através do casamento entre a arte de rua e o mundo digital. Entra na nossa história.',
-        story: '/uploads/stories/teste.html',
+        story: '/uploads/stories/TESTE.html',
+        calltoaction:"Se queres saber mais sobre a ciência por trás desta pergunta, entra nesta estória!"
       });
     }
 
