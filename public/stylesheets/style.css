@@ -201,3 +201,18 @@ button:hover
   width: 100px;
   height: 40px;
 }
+
+#detail h3
+{
+  font-family: 'Bungee', cursive;
+  font-size:24px !important;
+}
+
+#detail a
+{
+  font-family: 'Lora', serif;
+  font-size:18px;
+  font-weight:bold;
+  color:#0211ef !important;
+  text-decoration:underline !important;
+}
