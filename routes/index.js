@@ -56,15 +56,6 @@ router.get('/gallery', function (req, res) {
 
 router.post('/generatePoster', function (req, res) {
 
-  console.log('bla');
-  console.log(req.body.question);
-
-  /*var sb = new streamBuffers.WritableStreamBuffer(
-    {
-      initialSize: (100 * 1024),
-      incrementAmount: (10 * 1024)
-    });*/
-
   var doc = new PDFDocument();
 
   var finalString = '';
@@ -106,12 +97,6 @@ router.post('/generatePoster', function (req, res) {
     align: 'center',
   });
 
-  //console.log(doc);
-  //blob = stream.toBlob('application/pdf');
-  //res.contentType('application/pdf');
-  //console.log(new Blob(doc));
-  //res.send(doc)
-
   doc.end();
 
   stream.on('data', function(chunk) {
@@ -122,24 +107,6 @@ stream.on('end', function() {
   // the stream is at its end, so push the resulting base64 string to the response
   res.json(finalString);
 });
-  //console.log(stream);
-  //console.log(stream.size());
-
-  //res.send();
-
-  //console.log(doc);
-
-  //res.sendFile('/public/uploads/output.pdf');
-
-  /*res.writeHead(200, {
-    'Content-Type': 'application/pdf',
-    'Content-Disposition': 'attachment; filename=some_file.pdf',
-    'Content-Length': doc.length
-  });
-  res.end(doc);*/
-  //doc.pipe( fs.createWriteStream('out.pdf') );
-  /*doc.write('out.pdf');
-  res.download('out.pdf');*/
 
 });
 
