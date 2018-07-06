@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var Question = require('../server/models/Question');
+var Vandalytic = require('../server/models/Vandalytic');
 var QRCode = require('qrcode');
 var PDFDocument = require('pdfkit');
 var fs = require("fs");
@@ -11,6 +12,8 @@ var base64 = require('base64-stream');
 router.get('/', function (req, res) {
 
   var randomStory = "/uploads/stories/defaultStory1.html";
+
+    registerVisitor(req,res,"landing");
 
     var random = Math.floor(Math.random() * 5) + 1;
 
@@ -46,11 +49,13 @@ router.get('/', function (req, res) {
 
 /* GET manifesto page */
 router.get('/manifesto', function (req, res) {
+  registerVisitor(req,res,"manifesto");
   res.render('manifesto', { title: '#ciênciadátrabalho - Manifesto' });
 });
 
 /* GET how-to page */
 router.get('/howto', function (req, res) {
+  registerVisitor(req,res,"howto");
   res.render('howto', { title: '#ciênciadátrabalho - Como Participar' });
 });
 
@@ -61,6 +66,7 @@ router.get('/new', function (req, res) {
 
 /* GET gallery page */
 router.get('/gallery', function (req, res) {
+  registerVisitor(req,res,"gallery");
   Question.find().exec (function(err, docs) {
     console.log(docs);
 
@@ -81,6 +87,8 @@ router.get('/gallery', function (req, res) {
 });
 
 router.post('/generatePoster', function (req, res) {
+
+  registerVisitor(req,res,"poster");
 
   var doc = new PDFDocument();
 
@@ -138,14 +146,14 @@ stream.on('end', function() {
 
 /* GET home page with a specific ID */
 router.get('/:id', function (req, res) {
-
+  registerVisitor(req,res,"landing/"+req.params.id);
   getQuestionById(req, res);
 
 });
 
 /* GET detail page related with a specific ID */
 router.get('/:id/detail', function (req, res) {
-
+  registerVisitor(req,res,"landing/"+req.params.id+"/");
   Question.findById(req.params.id, function (err, questions) {
 
     if (err) {
@@ -169,7 +177,7 @@ router.get('/:id/detail', function (req, res) {
 
 /* POST a new question */
 router.post('/question', function (req, res) {
-
+  registerVisitor(req,res,"newquestion");
   var newQuestion = new Question();
   newQuestion.question = req.body.question;
   newQuestion.answer = req.body.answer;
@@ -185,6 +193,19 @@ router.post('/question', function (req, res) {
   });
 
 });
+
+/* POST a new visit */
+var registerVisitor = function(req,res,page)
+{
+  var newVandalytic = new Vandalytic();
+  newVandalytic.page = page;
+  newVandalytic.timestamp = Date.now();
+  console.log(page);
+  
+  newVandalytic.save(function (err, newVandalytic) {
+    console.log("saved to db");
+  });
+}
 
 
 var getQuestionById = function (req, res) {
