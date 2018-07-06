@@ -216,3 +216,9 @@ button:hover
   color:#0211ef !important;
   text-decoration:underline !important;
 }
+
+#detail a:hover
+{
+  color:black !important;
+  text-decoration:none !important;
+}
