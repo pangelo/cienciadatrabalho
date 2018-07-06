@@ -175,18 +175,30 @@ var getQuestionById = function (req, res) {
       res.render('error', { status: 404, message: 'not found', error: '404 not found' });
     }
 
-
-    QRCode.toDataURL("http://localhost:3000/" + questions._id, function (err, url) {
-      qrCode = url;
-      res.render('landing', {
-        id: req.params.id,
-        title: '#ciênciadátrabalho',
-        question: questions.question,
-        teaser: questions.answer,
-        story: questions.interactiveStory,
-        qrCode: qrCode
+    if(req.params.id)
+    {
+      QRCode.toDataURL("http://localhost:3000/" + req.params.id, function (err, url) {
+        qrCode = url;
+        res.render('landing', {
+          id: req.params.id,
+          title: '#ciênciadátrabalho',
+          question: questions.question,
+          teaser: questions.answer,
+          story: questions.interactiveStory,
+          qrCode: qrCode
+        });
       });
-    });
+    }
+    else
+    {
+      res.render('landing', {
+        id: '',
+        title: '#ciênciadátrabalho',
+        question: 'Eu Tenho Perguntas?',
+        teaser: '#ciênciadátrabalho é um movimento que surge no contexto do Emergence Hackathon 2018, e pretende despertar a consciência do público para a complexidade e morosidade do trabalho científico através do casamento entre a arte de rua e o mundo digital. Entra na nossa história.',
+        story: '/uploads/stories/teste.html',
+      });
+    }
 
   });
 }
