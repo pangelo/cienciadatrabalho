@@ -8,7 +8,7 @@
         <script src="https://d3js.org/d3.v4.min.js"></script>
         <script src="/javascripts/dimple.v2.3.0.min.js"></script>
         <script type="text/javascript">
-            d3.json('http://localhost:3000/vandalyticsdata', function (data) {
+            d3.json('/vandalyticsdata', function (data) {
                 var svg = dimple.newSvg("#chartContainer", document.getElementById("chartContainer").offsetWidth, document.getElementById("chartContainer").offsetHeight);
                 var myChart = new dimple.chart(svg, data);
                 var x = myChart.addMeasureAxis("x", "count");
