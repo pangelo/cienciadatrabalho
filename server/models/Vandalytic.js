@@ -2,7 +2,8 @@ var mongoose = require('mongoose');
 
 var vandalyticSchema = new mongoose.Schema({
     page: { type: String, required:true},
-	  timestamp: { type: Date, default:Date.now },
+    timestamps: [{ type: Date, default:Date.now }],
+    count:{ type: Number, default: 0}
 });
 
 vandalyticSchema.pre('save', function(next){

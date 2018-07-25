@@ -13,28 +13,27 @@ router.get('/', function (req, res) {
 
   var randomStory = "/uploads/stories/defaultStory1.html";
 
-    registerVisitor(req,res,"landing");
+  registerVisitor(req, res, "landing");
 
-    var random = Math.floor(Math.random() * 5) + 1;
+  var random = Math.floor(Math.random() * 5) + 1;
 
-    switch(random)
-    {
-      case(1):
-        randomStory = "/uploads/stories/ANNA.html";
+  switch (random) {
+    case (1):
+      randomStory = "/uploads/stories/ANNA.html";
       break;
-      case(2):
-        randomStory = "/uploads/stories/CHRISTIAN.html";
+    case (2):
+      randomStory = "/uploads/stories/CHRISTIAN.html";
       break;
-      case(3):
-        randomStory = "/uploads/stories/FELIPE.html";
+    case (3):
+      randomStory = "/uploads/stories/FELIPE.html";
       break;
-      case(4):
-        randomStory = "/uploads/stories/NATALIA.html";
+    case (4):
+      randomStory = "/uploads/stories/NATALIA.html";
       break;
-      case(5):
-        randomStory = "/uploads/stories/PEDRO.html";
+    case (5):
+      randomStory = "/uploads/stories/PEDRO.html";
       break;
-    }
+  }
 
 
   res.render('landing', {
@@ -43,99 +42,102 @@ router.get('/', function (req, res) {
     question: 'Eu Tenho Perguntas?',
     teaser: 'A comunicar ciência através do vandalismo investigativo.',
     story: randomStory,
-    calltoaction:"Se queres saber mais sobre o movimento, entra nesta estória!"
+    calltoaction: "Se queres saber mais sobre o movimento, entra nesta estória!"
   });
 });
 
 /* GET manifesto page */
 router.get('/manifesto', function (req, res) {
-  registerVisitor(req,res,"manifesto");
-  res.render('manifesto', { title: '#ciênciadátrabalho - Manifesto' });
+  registerVisitor(req, res, "manifesto");
+  res.render('manifesto', {
+    title: '#ciênciadátrabalho - Manifesto'
+  });
 });
 
 /* GET how-to page */
 router.get('/howto', function (req, res) {
-  registerVisitor(req,res,"howto");
-  res.render('howto', { title: '#ciênciadátrabalho - Como Participar' });
+  registerVisitor(req, res, "howto");
+  res.render('howto', {
+    title: '#ciênciadátrabalho - Como Participar'
+  });
 });
 
 /* GET new question page */
 router.get('/new', function (req, res) {
-  res.render('new', { title: '#ciênciadátrabalho - Nova Pergunta' });
+  res.render('new', {
+    title: '#ciênciadátrabalho - Nova Pergunta'
+  });
 });
 
 /* GET analytics page */
 router.get('/vandalytics', function (req, res) {
 
-  Vandalytic.find().exec (function(err, results) {
+  Vandalytic.find().exec(function (err, results) {
 
-    var vandalytics = [];
+    var maxCount = 0;
 
-    for(var i = 0 ; i<results.length; i++)
+    for(var i=0 ; i<results.length; i++)
     {
-          vandalytics[i] = results[i].page;
-    }
+      if(results[i].count > maxCount)
+        maxCount = results[i].count;
 
-    var uniqueArray = vandalytics.filter(function(item, pos, self) {
-      return self.indexOf(item) == pos;
-  });
-
-    var counter = [];
-
-    for(var i=0; i<uniqueArray.length; i++)
-    {
-      counter[i] = 0;
-    }
-
-    for(var i=0; i<results.length; i++)
-    {
-      for(var j=0; j<uniqueArray.length; j++)
+      if(i==results.length-1)
       {
-        if(uniqueArray[j]==results[i].page)
-        {
-          counter[j] = counter[j] + 1;
-        }
+        res.render('vandalytics', {
+          title: '#ciênciadátrabalho - Vandalytics',
+          vandalytics: results,
+          maxCount: maxCount,
+          _id: "",
+        });
       }
     }
 
-    res.render('vandalytics', { title: '#ciênciadátrabalho - Vandalytics' , vandalytics: uniqueArray, _id:"", counter:counter });
+    
+  });
+});
+
+/* GET analytics page */
+router.get('/vandalyticsdata', function (req, res) {
+
+  Vandalytic.find().exec(function (err, results) {
+
+    res.send(results);
   });
 
-  
+
 });
 
 /* GET gallery page */
 router.get('/gallery', function (req, res) {
-  registerVisitor(req,res,"gallery");
-  Question.find().exec (function(err, docs) {
+  registerVisitor(req, res, "gallery");
+  Question.find().exec(function (err, docs) {
     console.log(docs);
 
     if (err) {
-      res.render ('error', {
+      res.render('error', {
         message: "Something bad happened to your gallery",
         status: err
       });
-    }
-    else {
-      res.render ('gallery', {
+    } else {
+      res.render('gallery', {
         title: '#ciênciadátrabalho - Galeria',
         docs: docs,
-        id:''
+        id: ''
       });
-    }    
-  }); 
+    }
+  });
 });
 
 router.post('/generatePoster', function (req, res) {
 
-  registerVisitor(req,res,"poster");
+  registerVisitor(req, res, "poster");
 
   var doc = new PDFDocument();
 
   var finalString = '';
 
   var stream = doc.pipe(base64.encode());
-  
+
   var question = req.body.question;
 
   var splitQuestion = question.split(" ");
@@ -144,12 +146,12 @@ router.post('/generatePoster', function (req, res) {
 
   for (var i = 0; i < splitQuestion.length; i++) {
 
-    doc.polygon ([10, 10], [10, 780], [600, 780], [600, 10]).dash(10,  20).stroke();
+    doc.polygon([10, 10], [10, 780], [600, 780], [600, 10]).dash(10, 20).stroke();
 
     var fontSize = 0;
     if (splitQuestion[i].length <= 5)
       fontSize = 96;
-    else if(splitQuestion[i].length <= 10)
+    else if (splitQuestion[i].length <= 10)
       fontSize = 64;
     else
       fontSize = 48;
@@ -158,8 +160,7 @@ router.post('/generatePoster', function (req, res) {
       doc.font('public/fonts/Bungee.ttf', fontSize).text(splitQuestion[i], {
         align: 'center',
       });
-    }
-    else {
+    } else {
       doc.font('public/fonts/Bungee.ttf', fontSize).text(splitQuestion[i], {
         align: 'center',
       }).moveDown();
@@ -173,27 +174,27 @@ router.post('/generatePoster', function (req, res) {
 
   doc.end();
 
-  stream.on('data', function(chunk) {
+  stream.on('data', function (chunk) {
     finalString += chunk;
-});
+  });
 
-stream.on('end', function() {
-  // the stream is at its end, so push the resulting base64 string to the response
-  res.json(finalString);
-});
+  stream.on('end', function () {
+    // the stream is at its end, so push the resulting base64 string to the response
+    res.json(finalString);
+  });
 
 });
 
 /* GET home page with a specific ID */
 router.get('/:id', function (req, res) {
-  registerVisitor(req,res,"landing/"+req.params.id);
+  registerVisitor(req, res, "landing/" + req.params.id);
   getQuestionById(req, res);
 
 });
 
 /* GET detail page related with a specific ID */
 router.get('/:id/detail', function (req, res) {
-  registerVisitor(req,res,"landing/"+req.params.id+"/");
+  registerVisitor(req, res, "landing/" + req.params.id + "/detail");
   Question.findById(req.params.id, function (err, questions) {
 
     if (err) {
@@ -201,7 +202,11 @@ router.get('/:id/detail', function (req, res) {
     }
 
     if (questions == null) {
-      res.render('error', { status: 404, message: 'not found', error: '404 not found' });
+      res.render('error', {
+        status: 404,
+        message: 'not found',
+        error: '404 not found'
+      });
     }
 
 
@@ -212,12 +217,12 @@ router.get('/:id/detail', function (req, res) {
 
   });
 
- 
+
 });
 
 /* POST a new question */
 router.post('/question', function (req, res) {
-  registerVisitor(req,res,"newquestion");
+  registerVisitor(req, res, "newquestion");
   var newQuestion = new Question();
   newQuestion.question = req.body.question;
   newQuestion.answer = req.body.answer;
@@ -235,61 +240,80 @@ router.post('/question', function (req, res) {
 });
 
 /* POST a new visit */
-var registerVisitor = function(req,res,page)
-{
-  var newVandalytic = new Vandalytic();
-  newVandalytic.page = page;
-  newVandalytic.timestamp = Date.now();
-  console.log(page);
-  
-  newVandalytic.save(function (err, newVandalytic) {
-    console.log("saved to db");
-  });
-}
+var registerVisitor = function (req, res, page) {
 
+    Vandalytic.find({
+      'page': page
+    }).exec(function (err, results) {
 
-var getQuestionById = function (req, res) {
+      var vandalytics = [];
 
-  var qrCode = '';
+      if (results.length > 0) {
+        var vandalytic = results[0];
 
-  Question.findById(req.params.id, function (err, questions) {
+        vandalytic.timestamps.push(Date.now());
+        vandalytic.count++;
 
-    if (err) {
-      res.send(err);
-    }
-
-    if (questions == null) {
-      res.render('error', { status: 404, message: 'not found', error: '404 not found' });
-    }
-
-    if(req.params.id)
-    {
-      QRCode.toDataURL("http://cienciadatrabalho.info" + req.params.id, function (err, url) {
-        qrCode = url;
-        res.render('landing', {
-          id: req.params.id,
-          title: '#ciênciadátrabalho',
-          question: questions.question,
-          teaser: questions.answer,
-          story: questions.interactiveStory,
-          qrCode: qrCode,
-          calltoaction:"Se queres saber mais sobre a ciência por trás desta pergunta, entra nesta estória!"
+        vandalytic.save(function (err, newVandalytic) {
+          console.log("saved existing vandalytic to db");
         });
-      });
-    }
-    else
-    {
-      res.render('landing', {
-        id: '',
-        title: '#ciênciadátrabalho',
-        question: 'Eu Tenho Perguntas?',
-        teaser: '#ciênciadátrabalho é um movimento que surge no contexto do Emergence Hackathon 2018, e pretende despertar a consciência do público para a complexidade e morosidade do trabalho científico através do casamento entre a arte de rua e o mundo digital. Entra na nossa história.',
-        story: '/uploads/stories/TESTE.html',
-        calltoaction:"Se queres saber mais sobre a ciência por trás desta pergunta, entra nesta estória!"
-      });
-    }
+      } else {
+        var newVandalytic = new Vandalytic();
+        newVandalytic.page = page;
+        newVandalytic.timestamps.push(Date.now());
+        newVandalytic.count++;
 
+        newVandalytic.save(function (err, newVandalytic) {
+          console.log("saved new vandalytic to db");
+        });
+      }
   });
-}
+};
 
-module.exports = router;
+
+    var getQuestionById = function (req, res) {
+
+      var qrCode = '';
+
+      Question.findById(req.params.id, function (err, questions) {
+
+        if (err) {
+          res.send(err);
+        }
+
+        if (questions == null) {
+          res.render('error', {
+            status: 404,
+            message: 'not found',
+            error: '404 not found'
+          });
+        }
+
+        if (req.params.id) {
+          QRCode.toDataURL("http://cienciadatrabalho.info" + req.params.id, function (err, url) {
+            qrCode = url;
+            res.render('landing', {
+              id: req.params.id,
+              title: '#ciênciadátrabalho',
+              question: questions.question,
+              teaser: questions.answer,
+              story: questions.interactiveStory,
+              qrCode: qrCode,
+              calltoaction: "Se queres saber mais sobre a ciência por trás desta pergunta, entra nesta estória!"
+            });
+          });
+        } else {
+          res.render('landing', {
+            id: '',
+            title: '#ciênciadátrabalho',
+            question: 'Eu Tenho Perguntas?',
+            teaser: '#ciênciadátrabalho é um movimento que surge no contexto do Emergence Hackathon 2018, e pretende despertar a consciência do público para a complexidade e morosidade do trabalho científico através do casamento entre a arte de rua e o mundo digital. Entra na nossa história.',
+            story: '/uploads/stories/TESTE.html',
+            calltoaction: "Se queres saber mais sobre a ciência por trás desta pergunta, entra nesta estória!"
+          });
+        }
+
+      });
+    }
+
+    module.exports = router;
