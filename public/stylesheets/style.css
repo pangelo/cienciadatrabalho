@@ -181,6 +181,13 @@ button:hover
   width:85%;
 }
 
+.posterLink
+{
+  font-family: 'Bungee', cursive;
+  font-size:18px !important;
+  text-align:center;
+}
+
 #posterHashTag
 {
   position:absolute;
