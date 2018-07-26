@@ -108,7 +108,7 @@ router.get('/vandalyticsdata', function (req, res) {
 /* GET gallery page */
 router.get('/gallery', function (req, res) {
   registerVisitor(req, res, "gallery");
-  Question.find().exec(function (err, docs) {
+  Question.find({"isApproved":true}).exec(function (err, docs) {
     console.log(docs);
 
     if (err) {
@@ -129,7 +129,7 @@ router.get('/gallery', function (req, res) {
 router.post('/generatePoster', function (req, res) {
 
   registerVisitor(req, res, "poster");
-
+  
   var doc = new PDFDocument();
 
   var finalString = '';
@@ -197,7 +197,7 @@ router.post('/generatePoster', function (req, res) {
   /*
    * Generate QR Code for this question
    */
-  QRCode.toDataURL("http://cienciadatrabalho.info/123456789", function (err, qrCode) {
+  QRCode.toDataURL("http://cienciadatrabalho.info/"+req.body.id, function (err, qrCode) {
 
     doc.image((new Buffer(qrCode.replace('data:image/png;base64,', ''), 'base64')), 230, 500, {
       align: 'center',
@@ -269,6 +269,7 @@ router.post('/question', function (req, res) {
   newQuestion.interactiveStory = req.body.interactiveStory;
   newQuestion.poster = req.body.poster;
   newQuestion.details = req.body.details;
+  newQuestion.isApproved = false;
 
   newQuestion.save(function (err, newQuestion) {
     if (err) res.send(err);

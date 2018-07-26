@@ -79,27 +79,10 @@ $("#newQuestionForm").submit(function(e) {
     }
     else
     {
-        $.post( "/generatePoster", {question:question}, function( data ) {
+        $.post( "/question", {question:question, answer:""}, function( data ) {
             console.log(data);
-            //$("#posterContent").html( data );
-
-            var byteCharacters = atob(data);
-
-            var byteNumbers = new Array(byteCharacters.length);
-            for (var i = 0; i < byteCharacters.length; i++) {
-                byteNumbers[i] = byteCharacters.charCodeAt(i);
-            }
-
-            var byteArray = new Uint8Array(byteNumbers);
-
-            var blob = new Blob([byteArray], {type: "application/pdf"});
-
-            var blob_url = URL.createObjectURL(blob);
-
-            $("#posterContent").attr('src', blob_url);  
+            generatePoster(data._id, data.question);
           });
-
-        //$("#posterContent").html( question );
 
         $("#step1").fadeOut(500,  function() {
             $("#step2").fadeIn(500);
@@ -110,3 +93,24 @@ $("#newQuestionForm").submit(function(e) {
 e.preventDefault();
     
 });
+
+var generatePoster = function(id, question)
+{
+    $.post( "/generatePoster", {id: id, question:question}, function( data ) {
+
+        var byteCharacters = atob(data);
+
+        var byteNumbers = new Array(byteCharacters.length);
+        for (var i = 0; i < byteCharacters.length; i++) {
+            byteNumbers[i] = byteCharacters.charCodeAt(i);
+        }
+
+        var byteArray = new Uint8Array(byteNumbers);
+
+        var blob = new Blob([byteArray], {type: "application/pdf"});
+
+        var blob_url = URL.createObjectURL(blob);
+
+        $("#posterContent").attr('src', blob_url);  
+      });
+}

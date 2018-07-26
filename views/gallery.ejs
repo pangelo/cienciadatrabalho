@@ -1,12 +1,18 @@
 <%- include header %>
-<ul id="gallery">
-	<% for(var i=0; i < docs.length; i++) { %>
-		
-	<li class="item" style="list-style: none;">
-	    
-		<h2 style="margin-bottom:30px;"><a href="/<%= docs[i]._id %>"><%= docs[i].question %></a></h2>
-		<hr>
-	</li>
-    <% } %>
-</ul>
-<%- include footer %>
+	<div id="gallery">
+			<div class="row" style="padding:0;">
+				<% for(var i=0; i < docs.length; i++) { %>
+					<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4" style="padding:0; text-align:center;">
+						<div id="galleryPoster">
+							<embed frameborder="0" class="posterContent" id="posterContent_<%= docs[i].id %>"></embed>
+						</div>
+						<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+					</div>
+					<% } %>
+	</div>
+	<script src="./javascripts/galleryScript.js"></script>
+	<script>
+		let documents = <%- JSON.stringify(docs) %>;
+		displayGallery(documents);
+	</script>
+	<%- include footer %>
