@@ -76,13 +76,11 @@ router.get('/vandalytics', function (req, res) {
 
     var maxCount = 0;
 
-    for(var i=0 ; i<results.length; i++)
-    {
-      if(results[i].count > maxCount)
+    for (var i = 0; i < results.length; i++) {
+      if (results[i].count > maxCount)
         maxCount = results[i].count;
 
-      if(i==results.length-1)
-      {
+      if (i == results.length - 1) {
         res.render('vandalytics', {
           title: '#ciênciadátrabalho - Vandalytics',
           vandalytics: results,
@@ -92,7 +90,7 @@ router.get('/vandalytics', function (req, res) {
       }
     }
 
-    
+
   });
 });
 
@@ -144,6 +142,33 @@ router.post('/generatePoster', function (req, res) {
 
   var hashtag = "#ciênciadatrabalho";
 
+  /*
+  * Control for small words to be put in the same line
+  */
+  for(var i=0; i< splitQuestion.length; i++)
+  {
+    if (splitQuestion[i].length <= 3) {
+      var tempString = splitQuestion[i];
+
+      if(i > 0)
+      {
+        splitQuestion[i - 1] = splitQuestion[i-1]+ " " + tempString;
+
+        splitQuestion.splice(i, 1);
+      }
+      else
+      {
+        splitQuestion[i + 1] = tempString+ " " + splitQuestion[i+1];
+
+        splitQuestion.splice(i, 1);
+      }
+      
+    }
+  }
+
+  /*
+  * Control for font size depending on word length
+  */
   for (var i = 0; i < splitQuestion.length; i++) {
 
     doc.polygon([10, 10], [10, 780], [600, 780], [600, 10]).dash(10, 20).stroke();
@@ -168,19 +193,33 @@ router.post('/generatePoster', function (req, res) {
 
   }
 
-  doc.font('public/fonts/Lora.ttf', 36).text(hashtag, 100, 670, {
-    align: 'center',
-  });
 
-  doc.end();
+  /*
+   * Generate QR Code for this question
+   */
+  QRCode.toDataURL("http://cienciadatrabalho.info/123456789", function (err, qrCode) {
 
-  stream.on('data', function (chunk) {
-    finalString += chunk;
-  });
+    doc.image((new Buffer(qrCode.replace('data:image/png;base64,', ''), 'base64')), 230, 500, {
+      align: 'center',
+    }); // this will decode your base64 to a new buffer
 
-  stream.on('end', function () {
-    // the stream is at its end, so push the resulting base64 string to the response
-    res.json(finalString);
+    doc.font('public/fonts/Lora.ttf', 36).text(hashtag, 70, 670, {
+      align: 'center',
+    });
+
+
+    doc.end();
+
+    stream.on('data', function (chunk) {
+      finalString += chunk;
+    });
+
+    stream.on('end', function () {
+      // the stream is at its end, so push the resulting base64 string to the response
+      res.json(finalString);
+    });
+
+
   });
 
 });
@@ -242,78 +281,78 @@ router.post('/question', function (req, res) {
 /* POST a new visit */
 var registerVisitor = function (req, res, page) {
 
-    Vandalytic.find({
-      'page': page
-    }).exec(function (err, results) {
+  Vandalytic.find({
+    'page': page
+  }).exec(function (err, results) {
 
-      var vandalytics = [];
+    var vandalytics = [];
 
-      if (results.length > 0) {
-        var vandalytic = results[0];
+    if (results.length > 0) {
+      var vandalytic = results[0];
 
-        vandalytic.timestamps.push(Date.now());
-        vandalytic.count++;
+      vandalytic.timestamps.push(Date.now());
+      vandalytic.count++;
 
-        vandalytic.save(function (err, newVandalytic) {
-          console.log("saved existing vandalytic to db");
-        });
-      } else {
-        var newVandalytic = new Vandalytic();
-        newVandalytic.page = page;
-        newVandalytic.timestamps.push(Date.now());
-        newVandalytic.count++;
+      vandalytic.save(function (err, newVandalytic) {
+        console.log("saved existing vandalytic to db");
+      });
+    } else {
+      var newVandalytic = new Vandalytic();
+      newVandalytic.page = page;
+      newVandalytic.timestamps.push(Date.now());
+      newVandalytic.count++;
 
-        newVandalytic.save(function (err, newVandalytic) {
-          console.log("saved new vandalytic to db");
-        });
-      }
+      newVandalytic.save(function (err, newVandalytic) {
+        console.log("saved new vandalytic to db");
+      });
+    }
   });
 };
 
 
-    var getQuestionById = function (req, res) {
+var getQuestionById = function (req, res) {
 
-      var qrCode = '';
+  var qrCode = '';
 
-      Question.findById(req.params.id, function (err, questions) {
+  Question.findById(req.params.id, function (err, questions) {
 
-        if (err) {
-          res.send(err);
-        }
+    if (err) {
+      res.send(err);
+    }
 
-        if (questions == null) {
-          res.render('error', {
-            status: 404,
-            message: 'not found',
-            error: '404 not found'
-          });
-        }
-
-        if (req.params.id) {
-          QRCode.toDataURL("http://cienciadatrabalho.info" + req.params.id, function (err, url) {
-            qrCode = url;
-            res.render('landing', {
-              id: req.params.id,
-              title: '#ciênciadátrabalho',
-              question: questions.question,
-              teaser: questions.answer,
-              story: questions.interactiveStory,
-              qrCode: qrCode,
-              calltoaction: "Se queres saber mais sobre a ciência por trás desta pergunta, entra nesta estória!"
-            });
-          });
-        } else {
-          res.render('landing', {
-            id: '',
-            title: '#ciênciadátrabalho',
-            question: 'Eu Tenho Perguntas?',
-            teaser: '#ciênciadátrabalho é um movimento que surge no contexto do Emergence Hackathon 2018, e pretende despertar a consciência do público para a complexidade e morosidade do trabalho científico através do casamento entre a arte de rua e o mundo digital. Entra na nossa história.',
-            story: '/uploads/stories/TESTE.html',
-            calltoaction: "Se queres saber mais sobre a ciência por trás desta pergunta, entra nesta estória!"
-          });
-        }
-
+    if (questions == null) {
+      res.render('error', {
+        status: 404,
+        message: 'not found',
+        error: '404 not found'
       });
     }
 
-    module.exports = router;
+    if (req.params.id) {
+      QRCode.toDataURL("http://cienciadatrabalho.info" + req.params.id, function (err, url) {
+        qrCode = url;
+        res.render('landing', {
+          id: req.params.id,
+          title: '#ciênciadátrabalho',
+          question: questions.question,
+          teaser: questions.answer,
+          story: questions.interactiveStory,
+          qrCode: qrCode,
+          calltoaction: "Se queres saber mais sobre a ciência por trás desta pergunta, entra nesta estória!"
+        });
+      });
+    } else {
+      res.render('landing', {
+        id: '',
+        title: '#ciênciadátrabalho',
+        question: 'Eu Tenho Perguntas?',
+        teaser: '#ciênciadátrabalho é um movimento que surge no contexto do Emergence Hackathon 2018, e pretende despertar a consciência do público para a complexidade e morosidade do trabalho científico através do casamento entre a arte de rua e o mundo digital. Entra na nossa história.',
+        story: '/uploads/stories/TESTE.html',
+        calltoaction: "Se queres saber mais sobre a ciência por trás desta pergunta, entra nesta estória!"
+      });
+    }
+
+  });
+}
+
+module.exports = router;

@@ -96,8 +96,6 @@ $("#newQuestionForm").submit(function(e) {
 
             var blob_url = URL.createObjectURL(blob);
 
-            console.log(blob);
-
             $("#posterContent").attr('src', blob_url);  
           });
 
