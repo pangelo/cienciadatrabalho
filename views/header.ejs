@@ -25,11 +25,16 @@
     <div class="container">
         <header>
             <div class="title" style="font-family: 'Lora', serif; text-align:center; font-size:6vw; border-bottom:2px solid black; padding-bottom:40px;">
-                <div>#ciênciadátrabalho</div>
+                <div><%= __('title') %></div>
                 <div style="line-height:1px;">
                     <img class="titleImg" id="fbLogo" src="/images/facebook-logo.png">
                     <img id="instaLogo" class="titleImg" src="/images/instagram-logo.png">
                     <img class="titleImg" id="twitterLogo" src="/images/twitter-logo-on-black-background.png">
+                </div>
+                <div style="font-size:18px; cursor:pointer;">
+                    <br>
+                    <a href="/setlocale/en">en</a>/
+                    <a href="/setlocale/pt">pt</a>
                 </div>
             </div>
 
@@ -37,16 +42,16 @@
                 <a class="navbar-brand" href="#"></a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup"
                     aria-expanded="false" aria-label="Toggle navigation">
-                    MENU
+                    <%= __('menu') %>
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                     <ul class="navbar-nav" class="row">
-                        <a id="homeLink" class="nav-item nav-link col-sm-2" href="/">Home</a>
-                        <a id="manifestoLink" class="nav-item nav-link col-sm-2" href="/manifesto">Manifesto</a>
-                        <a id="howToLink" class="nav-item nav-link col-sm-2" href="/howto">Como Participo?</a>
-                        <a id="galleryLink" class="nav-item nav-link col-sm-2" href="/gallery">Galeria</a>
-                        <a id="newLink" class="nav-item nav-link col-sm-2" href="/new">Nova Pergunta</a>
+                        <a id="homeLink" class="nav-item nav-link col-sm-2" href="/"><%= __('menu_home') %></a>
+                        <a id="manifestoLink" class="nav-item nav-link col-sm-2" href="/manifesto"><%= __('menu_manifesto') %></a>
+                        <a id="howToLink" class="nav-item nav-link col-sm-2" href="/howto"><%= __('menu_howto') %></a>
+                        <a id="galleryLink" class="nav-item nav-link col-sm-2" href="/gallery"><%= __('menu_gallery') %></a>
+                        <a id="newLink" class="nav-item nav-link col-sm-2" href="/new"><%= __('menu_question') %></a>
                     </ul>
                 </div>
             </nav>

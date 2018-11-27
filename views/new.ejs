@@ -1,13 +1,13 @@
 <%- include header %>
     <container>
         <div id="step1">
-            <h1 style="margin-top:40px; margin-bottom:40px;">Tens uma nova pergunta?</h1>
+            <h1 style="margin-top:40px; margin-bottom:40px;"><%= __('question_title') %></h1>
             <h2 id="manifestoList">
-                Preenche o formulário abaixo para continuar
+                <%= __('question_fillform') %>
             </h2>
             <form id="newQuestionForm" class="form-control" style="margin-top:40px; text-align:center; width:100%;">
                 <input id="newQuestionInput" type="text" name="question" style="width:100%;">
-                <button id="submitNewQuestionButton" style=" margin:auto; margin-top:40px;">Submeter</button>
+                <button id="submitNewQuestionButton" style=" margin:auto; margin-top:40px;"><%= __('question_submit') %></button>
             </form>
         </div>
         <div id="step2" style="display:none;" class="row">

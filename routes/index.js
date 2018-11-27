@@ -9,6 +9,14 @@ var blobStream = require('blob-stream');
 var streamBuffers = require('stream-buffers');
 var base64 = require('base64-stream');
 
+
+// set a cookie to requested locale
+router.get('/setlocale/:locale', function (req, res) {
+  res.setLocale(req.params.locale);
+  res.cookie('locale', req.params.locale);
+  res.redirect('back');
+});
+
 router.get('/', function (req, res) {
 
   var randomStory = "/uploads/stories/defaultStory1.html";
@@ -109,7 +117,6 @@ router.get('/vandalyticsdata', function (req, res) {
 router.get('/gallery', function (req, res) {
   registerVisitor(req, res, "gallery");
   Question.find({"isApproved":true}).exec(function (err, docs) {
-    console.log(docs);
 
     if (err) {
       res.render('error', {
@@ -140,7 +147,7 @@ router.post('/generatePoster', function (req, res) {
 
   var splitQuestion = question.split(" ");
 
-  var hashtag = "#ciênciadatrabalho";
+  var hashtag = req.__('title');
 
   /*
   * Control for small words to be put in the same line

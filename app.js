@@ -5,6 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+var i18n = require('i18n');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -27,6 +28,15 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+i18n.configure({
+    locales: ['en', 'pt'],
+    directory: __dirname + '/locales',
+    defaultLocale: 'pt',
+    cookie: 'locale',
+    autoReload: true
+});
+app.use(i18n.init);
 
 app.use('/', routes);
 app.use('/users', users);
